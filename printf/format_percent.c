@@ -6,14 +6,16 @@
 /*   By: seoson <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 13:44:53 by seoson            #+#    #+#             */
-/*   Updated: 2023/04/20 13:56:37 by seoson           ###   ########.fr       */
+/*   Updated: 2023/04/22 14:47:41 by seoson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	format_percent(int *cnt)
+int	format_percent(int *cnt)
 {
-	write(1, "%", 1);
+	if (write(1, "%", 1) == -1)
+		return (-1);
 	*cnt = *cnt + 1;
+	return (1);
 }

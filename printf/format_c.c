@@ -6,17 +6,19 @@
 /*   By: seoson <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 12:43:18 by seoson            #+#    #+#             */
-/*   Updated: 2023/04/20 13:34:44 by seoson           ###   ########.fr       */
+/*   Updated: 2023/04/21 19:06:42 by seoson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	format_c(va_list arg, int *cnt)
+int	format_c(va_list arg, int *cnt)
 {
 	char	c;
 
 	c = va_arg(arg, int);
-	write(1, &c, 1);
+	if (write(1, &c, 1) == -1)
+		return (-1);
 	*cnt = *cnt + 1;
+	return (1);
 }

@@ -1,44 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   format_d.c                                         :+:      :+:    :+:   */
+/*   format_x_large.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seoson <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/20 11:56:11 by seoson            #+#    #+#             */
-/*   Updated: 2023/04/22 14:57:22 by seoson           ###   ########.fr       */
+/*   Created: 2023/04/21 17:25:59 by seoson            #+#    #+#             */
+/*   Updated: 2023/04/22 15:01:17 by seoson           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_putnbr_fd(int n, int fd, int *cnt)
+int	print_reverse_large(size_t address, int *cnt)
 {
-	long long	temp;
-	char		print;
-
-	temp = (long long)n;
-	if (temp < 0)
+	if (address < 16)
 	{
-		temp *= -1;
 		*cnt = *cnt + 1;
-		if (write(fd, "-", 1) == -1)
+		if (write(1, &"0123456789ABCDEF"[address % 16], 1) == -1)
 			return (-1);
 	}
-	if (temp > 9)
-		if (ft_putnbr_fd(temp / 10, fd, cnt) == -1)
+	else
+	{
+		*cnt = *cnt + 1;
+		if (print_reverse_large(address / 16, cnt) == -1)
 			return (-1);
-	print = (temp % 10) + '0';
-	*cnt = *cnt + 1;
-	if (write(fd, &print, 1) == -1)
-		return (-1);
+		if (write(1, &"0123456789ABCDEF"[address % 16], 1) == -1)
+			return (-1);
+	}
 	return (1);
 }
 
-int	format_d(va_list arg, int *cnt)
+int	format_x_large(va_list arg, int *cnt)
 {
-	int	temp;
+	int				temp;
+	unsigned int	casting;
 
 	temp = va_arg(arg, int);
-	return (ft_putnbr_fd(temp, 1, cnt));
+	casting = temp;
+	return (print_reverse_large((size_t)casting, cnt));
 }
